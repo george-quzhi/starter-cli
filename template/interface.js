@@ -12,6 +12,7 @@ var interfaceTemplate = function (singularName, pluralName) {
   return `
   export interface ${singularClassName} {
     id: number;
+    parameter: string;
   }
   
 `;

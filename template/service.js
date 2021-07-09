@@ -10,7 +10,6 @@ var serviceTemplate = function (singularName, pluralName) {
   var singularClassName = tools.pascal(singularName);
   var pluralClassName = tools.pascal(pluralName);
   return `
-import bcrypt from 'bcryptjs';
 import DB from '@databases';
 import { Create${singularClassName}Dto } from '@dtos/${pluralFileName}.dto';
 import HttpException from '@exceptions/HttpException';
@@ -20,7 +19,7 @@ import { isEmpty } from '@utils/util';
 class ${singularClassName}Service {
   public ${pluralVarName} = DB.${pluralClassName};
 
-  public async findAll${singularClassName}(): Promise<${singularClassName}[]> {
+  public async findAll${pluralClassName}(): Promise<${singularClassName}[]> {
     const all${singularClassName}: ${singularClassName}[] = await this.${pluralVarName}.findAll();
     return all${singularClassName};
   }
@@ -37,11 +36,10 @@ class ${singularClassName}Service {
   public async create${singularClassName}(${singularVarName}Data: Create${singularClassName}Dto): Promise<${singularClassName}> {
     if (isEmpty(${singularVarName}Data)) throw new HttpException(400, "You're not ${singularVarName}Data");
 
-    const find${singularClassName}: ${singularClassName} = await this.${pluralVarName}.findOne({ where: { email: ${singularVarName}Data.email } });
-    if (find${singularClassName}) throw new HttpException(409, 'You're email'+ ${singularVarName}Data.email + 'already exists');
+    const find${singularClassName}: ${singularClassName} = await this.${pluralVarName}.findOne({ where: { parameter: ${singularVarName}Data.parameter } });
+    if (find${singularClassName}) throw new HttpException(409, ${singularVarName}Data.parameter + 'already exists');
 
-    const hashedPassword = await bcrypt.hash(${singularVarName}Data.password, 10);
-    const create${singularClassName}Data: ${singularClassName} = await this.${pluralVarName}.create({ ...${singularVarName}Data, password: hashedPassword });
+    const create${singularClassName}Data: ${singularClassName} = await this.${pluralVarName}.create({ ...${singularVarName}Data});
     return create${singularClassName}Data;
   }
 
@@ -51,8 +49,7 @@ class ${singularClassName}Service {
     const find${singularClassName}: ${singularClassName} = await this.${pluralVarName}.findByPk(${singularVarName}Id);
     if (!find${singularClassName}) throw new HttpException(409, "You're not ${singularVarName}");
 
-    const hashedPassword = await bcrypt.hash(${singularVarName}Data.password, 10);
-    await this.${pluralVarName}.update({ ...${singularVarName}Data, password: hashedPassword }, { where: { id: ${singularVarName}Id } });
+    await this.${pluralVarName}.update({ ...${singularVarName}Data }, { where: { id: ${singularVarName}Id } });
 
     const update${singularClassName}: ${singularClassName} = await this.${pluralVarName}.findByPk(${singularVarName}Id);
     return update${singularClassName};

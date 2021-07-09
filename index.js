@@ -1,6 +1,7 @@
 var fs = require("fs");
 var path = require("path");
 var tools = require("name-styles");
+var routeTemplate = require("./template/route");
 var controllerTemplate = require("./template/controller");
 var dtoTemplate = require("./template/dto");
 var modelTemplate = require("./template/model");
@@ -28,19 +29,55 @@ var starterCli = (function () {
     }
   }
 
+  function replacePlaceHolder(targetFilePath, placeHolderMappings) {
+    let replaced = false;
+    let fileString = fs.readFileSync(targetFilePath).toString();
+    console.log(fileString)
+    placeHolderMappings.forEach(mapping => {
+      if(fileString.includes(mapping.placeHolder) > -1) {
+        fileString = fileString.replace(mapping.placeHolder, `${mapping.replaceText}${mapping.placeHolder}`);
+        replaced = true;
+      }
+    });
+    
+    if(replaced) {
+      console.log(fileString)
+      fs.writeFileSync(targetFilePath, fileString);
+    }
+    return replaced;
+  }
+
   return {
     generate: function (command, targetPath, singularName, pluralName) {
       var fileName = tools.hyphen(pluralName);
       try {
         switch (command) {
-          case "route":
+          case "route": {
             var pagePath = formatPath(path.join(targetPath));
             mkdirSync(pagePath, () => {
               fs.writeFileSync(
                 path.join(pagePath, fileName + ".route.ts"),
-                componentTemplate(className, fileName, varName)
+                routeTemplate(singularName, pluralName)
               );
             });
+            const targetFilePath = path.join(targetPath, '../server.ts');
+            const pluralClassName = tools.pascal(pluralName);
+            const pluralFileName = tools.hyphen(pluralName);
+            const placeHolderMappings = [
+              {
+                placeHolder: '/*RouteImportPlaceHolder*/',
+                replaceText: `import ${pluralClassName}Route from '@routes/${pluralFileName}.route';`,
+              },
+              {
+                placeHolder: '/*RoutePlaceHolder*/',
+                replaceText: `, new ${pluralClassName}Route()`,
+              }
+            ];
+
+            if(!replacePlaceHolder(targetFilePath, placeHolderMappings)) {
+              console.warn('model代码生成成功，server.ts 文件修改失败，未发现占位符，需要手动添加。详细请使用 starter-cli route -h查看如何修改。')
+            }
+          }
             break;
           case "controller":
             var controllerPath = formatPath(path.join(targetPath));
@@ -60,7 +97,7 @@ var starterCli = (function () {
               );
             });
             break;
-          case "model":
+          case "model": {
             var modelPath = formatPath(path.join(targetPath));
             mkdirSync(modelPath, () => {
               fs.writeFileSync(
@@ -68,6 +105,25 @@ var starterCli = (function () {
                 modelTemplate(singularName, pluralName)
               );
             });
+            const targetFilePath = path.join(targetPath, '../databases/index.ts');
+            const singularClassName = tools.pascal(singularName);
+            const pluralClassName = tools.pascal(pluralName);
+            const pluralFileName = tools.hyphen(pluralName);
+            const placeHolderMappings = [
+              {
+                placeHolder: '/*ModelImportPlaceHolder*/',
+                replaceText: `import ${singularClassName}Model from '@models/${pluralFileName}.model';`,
+              },
+              {
+                placeHolder: '/*ModelPlaceHolder*/',
+                replaceText: `${pluralClassName}: ${singularClassName}Model(sequelize),`,
+              }
+            ];
+
+            if(!replacePlaceHolder(targetFilePath, placeHolderMappings)) {
+              console.warn('model代码生成成功，src/databases/index.ts 文件修改失败，未发现占位符，需要手动添加。详细请使用 starter-cli model -h查看如何修改。')
+            }
+          }
             break;
           case "service":
             var businessServicePath = formatPath(path.join(targetPath));

@@ -13,11 +13,11 @@ var modelTemplate = function (singularName, pluralName) {
   import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
   import { ${singularClassName} } from '@interfaces/${pluralFileName}.interface';
   
-  export type ${singularClassName}CreationAttributes = Optional<${singularClassName}, 'id'>;
+  export type ${singularClassName}CreationAttributes = Optional<${singularClassName}, 'id' | 'parameter'>;
   
   export class ${singularClassName}Model extends Model<${singularClassName}, ${singularClassName}CreationAttributes> implements ${singularClassName} {
     public id: number;
-  
+    public parameter: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
   }
@@ -29,6 +29,10 @@ var modelTemplate = function (singularName, pluralName) {
           autoIncrement: true,
           primaryKey: true,
           type: DataTypes.INTEGER,
+        },
+        parameter: {
+          allowNull: false,
+          type: DataTypes.STRING(128),
         },
       },
       {

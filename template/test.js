@@ -10,7 +10,6 @@ var testTemplate = function (singularName, pluralName) {
     var singularClassName = tools.pascal(singularName);
     var pluralClassName = tools.pascal(pluralName);
   return `
-  import bcrypt from 'bcryptjs';
   import { Sequelize } from 'sequelize';
   import request from 'supertest';
   import App from '@/app';

@@ -31,7 +31,7 @@ var pluralHelp = {
 
 var routeParser = subparsers.addParser("route", {
   description: "生成 route 文件",
-  help: "生成 route 文件",
+  help: "生成 route 文件，同时可以在server.ts添加占位符/*RouteImportPlaceHolder*/和/*RoutePlaceHolder*/到对应的位置来让程序自动添加",
   addHelp: true,
 });
 
@@ -49,7 +49,7 @@ var dtoParser = subparsers.addParser("dto", {
 
 var modelParser = subparsers.addParser("model", {
   description: "生成 model 文件",
-  help: "生成 model 文件",
+  help: "生成 model 文件 同时可以在src/databases/index.ts添加占位符/*ModelImportPlaceHolder*/和/*ModelPlaceHolder*/到对应的位置来让程序自动添加",
   addHelp: true,
 });
 
@@ -67,6 +67,12 @@ var interfaceParser = subparsers.addParser("interface", {
 
 var testParser = subparsers.addParser("test", {
   description: "生成 test 文件",
+  help: "生成 test 文件",
+  addHelp: true,
+});
+
+var moduleParser = subparsers.addParser("module", {
+  description: "生成模块中的所有文件，包括route、controller、dto、model、service、interface、test",
   help: "生成 test 文件",
   addHelp: true,
 });
@@ -91,14 +97,14 @@ interfaceParser.addArgument(pluralOptions, pluralHelp);
 testParser.addArgument(singularOptions, singularHelp);
 testParser.addArgument(pluralOptions, pluralHelp);
 
-
+moduleParser.addArgument(singularOptions, singularHelp);
+moduleParser.addArgument(pluralOptions, pluralHelp);
 
 var singularName, pluralName;
 var args = parser.parseArgs();
 var command = process.argv[2];
 
 // 逻辑
-
 if (args.singularName !== null) {
   singularName = args.singularName;
 } else {
