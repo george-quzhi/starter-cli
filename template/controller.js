@@ -13,14 +13,14 @@ var controllerTemplate = function (singularName, pluralName) {
   import { NextFunction, Request, Response } from 'express';
   import { Create${singularClassName}Dto } from '@dtos/${pluralFileName}.dto';
   import { ${singularClassName} } from '@interfaces/${pluralFileName}.interface';
-  import ${singularVarName}Service from '@services/${pluralFileName}.service';
+  import ${singularClassName}Service from '@services/${pluralFileName}.service';
   
   class ${pluralClassName}Controller {
-    public ${singularVarName}Service = new ${singularVarName}Service();
+    public ${singularVarName}Service = new ${singularClassName}Service();
   
     public get${pluralClassName} = async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const findAll${pluralClassName}Data: ${pluralClassName}[] = await this.${singularVarName}Service.findAll${pluralClassName}();
+        const findAll${pluralClassName}Data: ${singularClassName}[] = await this.${singularVarName}Service.findAll${pluralClassName}();
   
         res.status(200).json({ data: findAll${pluralClassName}Data, message: 'findAll' });
       } catch (error) {
@@ -28,46 +28,46 @@ var controllerTemplate = function (singularName, pluralName) {
       }
     };
   
-    public get${pluralClassName}ById = async (req: Request, res: Response, next: NextFunction) => {
+    public get${singularClassName}ById = async (req: Request, res: Response, next: NextFunction) => {
       try {
         const ${singularVarName}Id = Number(req.params.id);
-        const findOne${pluralClassName}Data: ${pluralClassName} = await this.${singularVarName}Service.find${pluralClassName}ById(${singularVarName}Id);
+        const findOne${singularClassName}Data: ${singularClassName} = await this.${singularVarName}Service.find${singularClassName}ById(${singularVarName}Id);
   
-        res.status(200).json({ data: findOne${pluralClassName}Data, message: 'findOne' });
+        res.status(200).json({ data: findOne${singularClassName}Data, message: 'findOne' });
       } catch (error) {
         next(error);
       }
     };
   
-    public create${pluralClassName} = async (req: Request, res: Response, next: NextFunction) => {
+    public create${singularClassName} = async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const ${singularVarName}Data: Create${pluralClassName}Dto = req.body;
-        const create${pluralClassName}Data: ${pluralClassName} = await this.${singularVarName}Service.create${pluralClassName}(${singularVarName}Data);
+        const ${singularVarName}Data: Create${singularClassName}Dto = req.body;
+        const create${singularClassName}Data: ${singularClassName} = await this.${singularVarName}Service.create${singularClassName}(${singularVarName}Data);
   
-        res.status(201).json({ data: create${pluralClassName}Data, message: 'created' });
+        res.status(201).json({ data: create${singularClassName}Data, message: 'created' });
       } catch (error) {
         next(error);
       }
     };
   
-    public update${pluralClassName} = async (req: Request, res: Response, next: NextFunction) => {
+    public update${singularClassName} = async (req: Request, res: Response, next: NextFunction) => {
       try {
         const ${singularVarName}Id = Number(req.params.id);
-        const ${singularVarName}Data: Create${pluralClassName}Dto = req.body;
-        const update${pluralClassName}Data: ${pluralClassName} = await this.${singularVarName}Service.update${pluralClassName}(${singularVarName}Id, ${singularVarName}Data);
+        const ${singularVarName}Data: Create${singularClassName}Dto = req.body;
+        const update${singularClassName}Data: ${singularClassName} = await this.${singularVarName}Service.update${singularClassName}(${singularVarName}Id, ${singularVarName}Data);
   
-        res.status(200).json({ data: update${pluralClassName}Data, message: 'updated' });
+        res.status(200).json({ data: update${singularClassName}Data, message: 'updated' });
       } catch (error) {
         next(error);
       }
     };
   
-    public delete${pluralClassName} = async (req: Request, res: Response, next: NextFunction) => {
+    public delete${singularClassName} = async (req: Request, res: Response, next: NextFunction) => {
       try {
         const ${singularVarName}Id = Number(req.params.id);
-        const delete${pluralClassName}Data: ${pluralClassName} = await this.${singularVarName}Service.delete${pluralClassName}(${singularVarName}Id);
+        const delete${singularClassName}Data: ${singularClassName} = await this.${singularVarName}Service.delete${singularClassName}(${singularVarName}Id);
   
-        res.status(200).json({ data: delete${pluralClassName}Data, message: 'deleted' });
+        res.status(200).json({ data: delete${singularClassName}Data, message: 'deleted' });
       } catch (error) {
         next(error);
       }

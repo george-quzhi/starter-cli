@@ -2,6 +2,11 @@ var fs = require("fs");
 var path = require("path");
 var tools = require("name-styles");
 var controllerTemplate = require("./template/controller");
+var dtoTemplate = require("./template/dto");
+var modelTemplate = require("./template/model");
+var serviceTemplate = require("./template/service");
+var interfaceTemplate = require("./template/interface");
+var testTemplate = require("./template/test");
 
 var starterCli = (function () {
   function formatPath(dirname) {
@@ -25,13 +30,14 @@ var starterCli = (function () {
 
   return {
     generate: function (command, targetPath, singularName, pluralName) {
+      var fileName = tools.hyphen(pluralName);
       try {
         switch (command) {
           case "route":
             var pagePath = formatPath(path.join(targetPath));
             mkdirSync(pagePath, () => {
               fs.writeFileSync(
-                path.join(pagePath, fileName + ".component.ts"),
+                path.join(pagePath, fileName + ".route.ts"),
                 componentTemplate(className, fileName, varName)
               );
             });
@@ -49,8 +55,8 @@ var starterCli = (function () {
             var dtoPath = formatPath(path.join(targetPath));
             mkdirSync(dtoPath, () => {
               fs.writeFileSync(
-                path.join(dtoPath, fileName + ".request-dto.ts"),
-                dtoTemplate(className, fileName, varName)
+                path.join(dtoPath, fileName + ".dto.ts"),
+                dtoTemplate(singularName, pluralName)
               );
             });
             break;
@@ -59,7 +65,7 @@ var starterCli = (function () {
             mkdirSync(modelPath, () => {
               fs.writeFileSync(
                 path.join(modelPath, fileName + ".model.ts"),
-                dbModelTemplate(className, fileName, varName)
+                modelTemplate(singularName, pluralName)
               );
             });
             break;
@@ -68,7 +74,7 @@ var starterCli = (function () {
             mkdirSync(businessServicePath, () => {
               fs.writeFileSync(
                 path.join(businessServicePath, fileName + ".service.ts"),
-                businessServiceTemplate(className, fileName, varName)
+                serviceTemplate(singularName, pluralName)
               );
             });
             break;
@@ -77,8 +83,8 @@ var starterCli = (function () {
             var businessServicePath = formatPath(path.join(targetPath));
             mkdirSync(businessServicePath, () => {
               fs.writeFileSync(
-                path.join(businessServicePath, fileName + ".service.ts"),
-                businessServiceTemplate(className, fileName, varName)
+                path.join(businessServicePath, fileName + ".interface.ts"),
+                interfaceTemplate(singularName, pluralName)
               );
             });
             break;
@@ -86,8 +92,8 @@ var starterCli = (function () {
             var businessServicePath = formatPath(path.join(targetPath));
             mkdirSync(businessServicePath, () => {
               fs.writeFileSync(
-                path.join(businessServicePath, fileName + ".service.ts"),
-                businessServiceTemplate(className, fileName, varName)
+                path.join(businessServicePath, fileName + ".test.ts"),
+                testTemplate(singularName, pluralName)
               );
             });
             break;

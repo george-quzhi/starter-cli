@@ -1,31 +1,59 @@
 {
-  "name": "starter-cli",
-  "version": "0.0.1",
-  "description": "生成工程文件小工具",
-  "main": "./index.js",
-  "author": {
-    "name": "George <504784339@163.com>"
+  "_from": "git+https://github.com/george-quzhi/starter-cli.git",
+  "_id": "starter-cli@0.0.1",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/starter-cli",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/george-quzhi/starter-cli.git",
+    "rawSpec": "https://github.com/george-quzhi/starter-cli.git",
+    "saveSpec": "git+https://github.com/george-quzhi/starter-cli.git",
+    "fetchSpec": "https://github.com/george-quzhi/starter-cli.git",
+    "gitCommittish": null
   },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/george-quzhi/starter-cli.git#95363df9c37968c4f6f687a3020aa410557b45a4",
+  "_spec": "https://github.com/george-quzhi/starter-cli.git",
+  "_where": "/Users/quzhi/.npm",
+  "author": {
+    "name": "George",
+    "email": "504784339@163.com"
+  },
+  "bin": {
+    "starter-cli": "starter-cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/george-quzhi/starter-cli/issues"
+  },
+  "bundleDependencies": false,
   "dependencies": {
     "argparse": "^1.0.7",
     "inquirer": "6.2.1",
     "name-styles": "^2.0.2"
   },
+  "deprecated": false,
+  "description": "生成工程文件小工具",
   "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/george-quzhi/starter-cli.git"
-  },
-  "bin": {
-    "starter-cli": "./starter-cli.js"
-  },
   "engines": {
     "node": ">= 0.4.x"
   },
+  "homepage": "https://github.com/george-quzhi/starter-cli#readme",
   "keywords": [
     "typescript-express-starter",
     "starter-cli",
     "cli"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "main": "./index.js",
+  "name": "starter-cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/george-quzhi/starter-cli.git"
+  },
+  "version": "0.0.1"
 }

@@ -16,29 +16,24 @@ var parser = new ArgumentParser({
 
 var subparsers = parser.addSubparsers();
 
-// var akitaParser = subparsers.addParser("akita", {
-//   description: "生成 akita 使用的 state 和 query 文件",
-//   help: "生成 akita 使用的 state 和 query 文件",
-//   addHelp: true,
-// });
+var singularOptions = ["-s", "--singularName"];
+var singularHelp = {
+  help: "设置一个模块名的单数名称，如：user，会自动补全相关文件名和变量名",
+  type: "string",
+  required: true,
+};
+var pluralOptions = ["-p", "--pluralName"];
+var pluralHelp = {
+  help: "设置一个模块名的复数名称，如：users，会自动补全相关文件名和变量名",
+  type: "string",
+  required: true,
+};
 
-// akitaParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
-
-// var componentParser = subparsers.addParser("component", {
-//   description: "生成 component.ts 文件",
-//   help: "生成 component.ts 文件",
-//   addHelp: true,
-// });
-
-// componentParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
+var routeParser = subparsers.addParser("route", {
+  description: "生成 route 文件",
+  help: "生成 route 文件",
+  addHelp: true,
+});
 
 var controllerParser = subparsers.addParser("controller", {
   description: "生成 controller 文件",
@@ -46,89 +41,57 @@ var controllerParser = subparsers.addParser("controller", {
   addHelp: true,
 });
 
-controllerParser.addArgument(["-s", "--singularName"], {
-  help: "设置一个模块名的单数名称，如：user，会自动补全相关文件名和变量名",
-  type: "string",
-  required: true,
+var dtoParser = subparsers.addParser("dto", {
+  description: "生成 dto 文件",
+  help: "生成 dto 文件",
+  addHelp: true,
 });
 
-controllerParser.addArgument(["-p", "--pluralName"], {
-  help: "设置一个模块名的复数名称，如：users，会自动补全相关文件名和变量名",
-  type: "string",
-  required: true,
+var modelParser = subparsers.addParser("model", {
+  description: "生成 model 文件",
+  help: "生成 model 文件",
+  addHelp: true,
 });
 
-// var dtoParser = subparsers.addParser("dto", {
-//   description: "生成 dto 文件",
-//   help: "生成 dto 文件",
-//   addHelp: true,
-// });
+var serviceParser = subparsers.addParser("service", {
+  description: "生成 service 文件",
+  help: "生成 service 文件",
+  addHelp: true,
+});
 
-// dtoParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
+var interfaceParser = subparsers.addParser("interface", {
+  description: "生成 interface 文件",
+  help: "生成 interface 文件",
+  addHelp: true,
+});
 
-// var serviceParser = subparsers.addParser("service", {
-//   description: "生成 service 文件",
-//   help: "生成 service 文件",
-//   addHelp: true,
-// });
+var testParser = subparsers.addParser("test", {
+  description: "生成 test 文件",
+  help: "生成 test 文件",
+  addHelp: true,
+});
 
-// serviceParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
 
-// var dbServiceParser = subparsers.addParser("dbservice", {
-//   description: "生成 dbservice 文件",
-//   help: "生成 dbservice 文件",
-//   addHelp: true,
-// });
+routeParser.addArgument(singularOptions, singularHelp);
+routeParser.addArgument(pluralOptions, pluralHelp);
+controllerParser.addArgument(singularOptions, singularHelp);
+controllerParser.addArgument(pluralOptions, pluralHelp);
+dtoParser.addArgument(singularOptions, singularHelp);
+dtoParser.addArgument(pluralOptions, pluralHelp);
 
-// dbServiceParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
+modelParser.addArgument(singularOptions, singularHelp);
+modelParser.addArgument(pluralOptions, pluralHelp);
 
-// var dbmodelParser = subparsers.addParser("dbmodel", {
-//   description: "生成 dbmodel 文件",
-//   help: "生成 dbmodel 文件",
-//   addHelp: true,
-// });
+serviceParser.addArgument(singularOptions, singularHelp);
+serviceParser.addArgument(pluralOptions, pluralHelp);
 
-// dbmodelParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
+interfaceParser.addArgument(singularOptions, singularHelp);
+interfaceParser.addArgument(pluralOptions, pluralHelp);
 
-// var moduleParser = subparsers.addParser("module", {
-//   description: "生成 component.ts 和 akita 文件",
-//   help: "生成 component.ts 和 akita 文件",
-//   addHelp: true,
-// });
+testParser.addArgument(singularOptions, singularHelp);
+testParser.addArgument(pluralOptions, pluralHelp);
 
-// moduleParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
 
-// var dbmodelParser = subparsers.addParser("function", {
-//   description: "生成 controller、service、deservvice、dbmodel、dto 文件",
-//   help: "生成 dbmodel 文件",
-//   addHelp: true,
-// });
-
-// dbmodelParser.addArgument(["-n", "--name"], {
-//   help: "设置一个模块名，如：userInfo，会自动补全相关文件名和变量名",
-//   type: "string",
-//   required: true,
-// });
 
 var singularName, pluralName;
 var args = parser.parseArgs();
