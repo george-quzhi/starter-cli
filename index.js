@@ -29,10 +29,14 @@ var starterCli = (function () {
     }
   }
 
-  function replacePlaceHolder(targetFilePath, placeHolderMappings) {
+  function replacePlaceHolder(targetPath, placeHolderMappings) {
     let replaced = false;
+    const targetFilePath = formatPath(targetPath);
+    if(!fs.existsSync(targetFilePath)) {
+      console.log(targetFilePath, 'not exists')
+      return replaced;
+    }
     let fileString = fs.readFileSync(targetFilePath).toString();
-    console.log(fileString)
     placeHolderMappings.forEach(mapping => {
       if(fileString.includes(mapping.placeHolder) > -1) {
         fileString = fileString.replace(mapping.placeHolder, `${mapping.replaceText}${mapping.placeHolder}`);
@@ -41,7 +45,6 @@ var starterCli = (function () {
     });
     
     if(replaced) {
-      console.log(fileString)
       fs.writeFileSync(targetFilePath, fileString);
     }
     return replaced;
@@ -134,7 +137,6 @@ var starterCli = (function () {
               );
             });
             break;
-
           case "interface":
             var businessServicePath = formatPath(path.join(targetPath));
             mkdirSync(businessServicePath, () => {
@@ -153,7 +155,6 @@ var starterCli = (function () {
               );
             });
             break;
-
           default:
             break;
         }
